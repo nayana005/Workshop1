@@ -2,28 +2,35 @@ package com.bridgelab.worshop1;
 
 import java.util.Scanner;
 
-public class TicTacToeGame {
+public class TicTacToeGame
+{
     //create a board of char array of size 10
     static char[] board = new char[10];
     static char userLetter;
     static char computerLetter;
 
-    public static void main(String[] args) {
+    public static void main(String[] args)
+    {
         createEmptyBoard();
         chooseLetter();
         showBoard();
         makeMove();
+        checkFirstPlayer();
+        
     }
 
-     //UC1
-    private static void createEmptyBoard() {
-        for (int index = 1; index < board.length; index++) {
+    //UC1
+    private static void createEmptyBoard()
+    {
+        for (int index = 1; index < board.length; index++)
+        {
             board[index] = ' ';
         }
     }
 
     //UC2
-    private static void chooseLetter() {
+    private static void chooseLetter()
+    {
         Scanner scanner = new Scanner(System.in);
         System.out.println("Choose a letter :: X or O : ");
         userLetter = scanner.next().toUpperCase().charAt(0);
@@ -31,7 +38,8 @@ public class TicTacToeGame {
     }
 
     //UC3
-    private static void showBoard() {
+    private static void showBoard()
+    {
         System.out.println(board[1] + " | " + board[2] + " | " + board[3]);
         System.out.println("----------");
         System.out.println(board[4] + " | " + board[5] + " | " + board[6]);
@@ -39,22 +47,29 @@ public class TicTacToeGame {
         System.out.println(board[7] + " | " + board[8] + " | " + board[9]);
     }
     //UC4
-    private static void makeMove() {
+    private static void makeMove()
+    {
         Scanner scanner = new Scanner(System.in);
         System.out.println("Choose your location(1-9): ");
         int position = scanner.nextInt();
-        if (position > 9 && position < 1) {
+        if (position > 9 && position < 1)
+        {
             System.err.println("Enter a valid location b/w 1 to 9");
             makeMove();
-        } else if (board[position] != ' ') {
+        }
+        else if (board[position] != ' ')
+        {
             System.err.println("You already chosen this! Enter a valid location");
             makeMove();
-        } else {
+        }
+        else
+        {
             board[position] = userLetter;
             showBoard();
             checkFreeSpace();
             makeMove();
         }
+
     }
     //UC5
     private static void checkFreeSpace()
@@ -72,11 +87,25 @@ public class TicTacToeGame {
         if(isSpaceAvailable == false)
         {
             System.err.println("Board is full! You can't make another move");
-
+            System.exit(0);
         }
         else
         {
             System.out.println("Free space is available! you have "+numOfFreeSpaces+ " moves left");
+        }
+    }
+    //UC6
+    private static void checkFirstPlayer()
+    {
+        int Head = 0;
+        double toss = Math.floor(Math.random()*10) % 2;
+        if ( toss == Head )
+        {
+            System.out.println("computer starts to play first");
+        }
+        else
+        {
+            System.out.println("User starts to play first");
         }
     }
 }
