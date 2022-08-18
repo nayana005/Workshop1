@@ -2,66 +2,81 @@ package com.bridgelab.worshop1;
 
 import java.util.Scanner;
 
-public class TicTacToeGame
-{
-	static char[] board = new char[10];
-	static char playerLetter;
-	static char computerLetter;
-	public static void main(String[] args)
-	{
-		createEmptyBoard();
-		selectLetter();
-		showBoard();
-		playerTurn();
+public class TicTacToeGame {
+    //create a board of char array of size 10
+    static char[] board = new char[10];
+    static char userLetter;
+    static char computerLetter;
 
-	}
+    public static void main(String[] args) {
+        createEmptyBoard();
+        chooseLetter();
+        showBoard();
+        makeMove();
+    }
 
-	//UC1
-	private static void createEmptyBoard()
-	{
-		for(int index=1; index<board.length;index++)
-		{
-			board[index] = ' ';
-		}
-	}
+     //UC1
+    private static void createEmptyBoard() {
+        for (int index = 1; index < board.length; index++) {
+            board[index] = ' ';
+        }
+    }
 
-	//UC2
-	private static void selectLetter()
-	{
-		Scanner scanner = new Scanner(System.in);
-		System.out.println("Choose a letter :: X or O : ");
-		playerLetter = scanner.next().toUpperCase().charAt(0);
-		computerLetter = (playerLetter == 'X') ? 'O' : 'X';
-	}
-	
-	//UC3
-	private static void showBoard()
-	{
-		System.out.println(board[1] + " | " + board[2] + " | " + board[3]);
-		System.out.println("---------");
-		System.out.println(board[4] + " | " + board[5] + " | " + board[6]);
-		System.out.println("---------");
-		System.out.println(board[7] + " | " + board[8] + " | " + board[9]);
-	}
+    //UC2
+    private static void chooseLetter() {
+        Scanner scanner = new Scanner(System.in);
+        System.out.println("Choose a letter :: X or O : ");
+        userLetter = scanner.next().toUpperCase().charAt(0);
+        computerLetter = (userLetter == 'X') ? 'O' : 'X';
+    }
 
-	//UC4
-	private static void playerTurn()
-	{
-		int playerMove;
-		while (true)
-		{
-			Scanner scanner = new Scanner(System.in);
-			System.out.println("Choose your location(1-9): ");
-			playerMove = scanner.nextInt();
-			if (board[playerMove] == ' ')
-			{
-				break;
-			}
+    //UC3
+    private static void showBoard() {
+        System.out.println(board[1] + " | " + board[2] + " | " + board[3]);
+        System.out.println("----------");
+        System.out.println(board[4] + " | " + board[5] + " | " + board[6]);
+        System.out.println("----------");
+        System.out.println(board[7] + " | " + board[8] + " | " + board[9]);
+    }
+    //UC4
+    private static void makeMove() {
+        Scanner scanner = new Scanner(System.in);
+        System.out.println("Choose your location(1-9): ");
+        int position = scanner.nextInt();
+        if (position > 9 && position < 1) {
+            System.err.println("Enter a valid location b/w 1 to 9");
+            makeMove();
+        } else if (board[position] != ' ') {
+            System.err.println("You already chosen this! Enter a valid location");
+            makeMove();
+        } else {
+            board[position] = userLetter;
+            showBoard();
+            checkFreeSpace();
+            makeMove();
+        }
+    }
+    //UC5
+    private static void checkFreeSpace()
+    {
+        boolean isSpaceAvailable = false;
+        int numOfFreeSpaces = 0;
+        for(int index=1;index<board.length;index++)
+        {
+            if((board[index] == ' '))
+            {
+                isSpaceAvailable = true;
+                numOfFreeSpaces++;
+            }
+        }
+        if(isSpaceAvailable == false)
+        {
+            System.err.println("Board is full! You can't make another move");
 
-		}
-		System.out.println("Player choose:: " + playerMove);
-		board[playerMove] = playerLetter;
-	}
-
+        }
+        else
+        {
+            System.out.println("Free space is available! you have "+numOfFreeSpaces+ " moves left");
+        }
+    }
 }
-
